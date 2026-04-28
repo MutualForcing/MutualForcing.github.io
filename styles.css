@@ -115,10 +115,11 @@ a:hover { color: var(--color-accent); }
 }
 
 .authors {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 500;
-  color: var(--color-muted);
-  margin-bottom: 4px;
+  color: var(--color-text);
+  margin-bottom: 6px;
+  line-height: 1.8;
 }
 
 .affiliation {
@@ -658,4 +659,92 @@ a:hover { color: var(--color-accent); }
     max-width: 240px;
     font-size: 0.78rem;
   }
+}
+
+
+/* =============================================
+   AUTHOR LINKS / AFFILIATION ENHANCEMENT
+   ============================================= */
+.authors a {
+  color: var(--color-text);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all var(--transition);
+}
+
+.authors a:hover {
+  color: var(--color-primary);
+  border-color: rgba(108,143,255,0.4);
+}
+
+.affiliation {
+  font-size: 0.92rem;
+  color: var(--color-muted);
+  margin-bottom: 36px;
+  line-height: 1.8;
+}
+
+.affiliation .inst {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+/* =============================================
+   HERO TEASER IMAGE
+   ============================================= */
+.teaser-image {
+  width: 100%;
+  max-width: 900px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+  display: block;
+  margin: 0 auto 18px;
+  background: #000;
+}
+
+/* =============================================
+   FIGURE CARD
+   ============================================= */
+.figure-card {
+  max-width: 980px;
+  margin: 36px auto 0;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
+}
+
+.figure-card img {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+}
+
+.figure-caption {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  line-height: 1.8;
+  text-align: left;
+}
+
+/* =============================================
+   BUTTON GROUP POLISH
+   ============================================= */
+.btn-group.compact {
+  margin-bottom: 42px;
+}
+
+.btn .emoji {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* =============================================
+   SECTION ANCHOR OFFSET
+   ============================================= */
+section[id] {
+  scroll-margin-top: 72px;
 }

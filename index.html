@@ -3,31 +3,60 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mutual Forcing — Audio-Video Character Generation</title>
+  <title>Mutual Forcing — Fast Autoregressive Audio-Video Character Generation</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+  <!-- ===================== TOP NAV ===================== -->
+  <nav class="topnav" id="topnav">
+    <div class="topnav-title">Mutual Forcing: Dual-Mode Self-Evolution for Fast Autoregressive Audio-Video Character Generation</div>
+    <ul class="topnav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#citation">Citation</a></li>
+    </ul>
+  </nav>
+
   <!-- ===================== HERO / TITLE ===================== -->
   <section class="hero">
     <div class="hero-inner">
-      <p class="venue-badge">Anonymous Submission</p>
+      <p class="venue-badge">Project Page</p>
+
       <h1 class="paper-title">
         Mutual Forcing: Dual-Mode Self-Evolution<br/>
-        for Fast Auto-Regressive<br/>
-        Audio-Video Character Generation
+        for Fast Autoregressive<br/>
+        Audio-Video Generation
       </h1>
-      <p class="authors">Anonymous Authors</p>
-      <p class="affiliation">Anonymous Institution(s)</p>
 
-      <div class="btn-group">
-        <a class="btn btn-primary" href="#">📄 Paper (Coming Soon)</a>
-        <a class="btn btn-outline" href="https://github.com/HVision-NKU/MutualForcing">💻 Code </a>
-        <a class="btn btn-outline" href="#">🤗 Pretrained Model (Coming Soon)</a>
+      <p class="authors">
+        <a href="https://scholar.google.com/citations?user=zQTdfUIAAAAJ&hl=en" target="_blank">Yupeng Zhou</a><sup>1,2</sup>, 
+        <a href="https://scholar.google.com/citations?user=5QTj0SAAAAAJ&hl=en" target="_blank">Lianghua Huang</a><sup>2</sup>, 
+        <a href="#" target="_blank">Zhifan Wu</a><sup>2</sup>, 
+        <a href="https://scholar.google.com/citations?user=S9ErhhEAAAAJ&hl=en" target="_blank">Jiabao Wang</a><sup>1</sup>, 
+        <a href="#" target="_blank">Yupeng Shi</a><sup>2</sup>, 
+        <a href="https://scholar.google.com/citations?user=PsUFNaIAAAAJ&hl=zh-CN" target="_blank">Biao Jiang</a><sup>2,3</sup>, 
+        <a href="https://scholar.google.com/citations?user=DdCAbWwAAAAJ&hl=en" target="_blank">Daquan Zhou</a><sup>3</sup>, 
+        <a href="https://scholar.google.com/citations?user=8zksQb4AAAAJ&hl=zh-CN" target="_blank">Yu Liu</a><sup>2</sup>, 
+        <a href="https://scholar.google.com/citations?user=huWpVyEAAAAJ&hl=en" target="_blank">Ming-Ming Cheng</a><sup>1</sup>, 
+        <a href="https://scholar.google.com/citations?user=fF8OFV8AAAAJ&hl=en" target="_blank">Qibin Hou</a><sup>1</sup>
+      </p>
+
+      <p class="affiliation">
+        <span class="inst"><sup>1</sup> VCIP, School of Computer Science, Nankai University</span><br/>
+        <span class="inst"><sup>2</sup> Tongyi Lab</span>
+        <span class="inst"><sup>3</sup> Peking University</span>
+      </p>
+
+      <div class="btn-group compact">
+        <a class="btn btn-primary" href="#"><span class="emoji">📄</span> Paper</a>
+        <a class="btn btn-outline" href="https://github.com/HVision-NKU/MutualForcing" target="_blank"><span class="emoji">💻</span> Code</a>
+        <a class="btn btn-outline" href="#"><span class="emoji">🤗</span> Pretrained Model</a>
+        <a class="btn btn-outline" href="#citation"><span class="emoji">📚</span> BibTeX</a>
       </div>
-
       <!-- Teaser video -->
       <div class="teaser-wrap">
         <video
@@ -35,7 +64,9 @@
           autoplay muted loop playsinline
           class="teaser-video">
         </video>
-        <p class="teaser-caption">MutualForcing 1min30s Video Demo (The video was heavily compressed due to GitHub's 10 MB upload file size limit.)</p>
+        <p class="teaser-caption">
+          Demo video of Mutual Forcing. The preview is compressed for web display.
+        </p>
       </div>
     </div>
   </section>
@@ -46,23 +77,13 @@
       <h2 class="sec-title">Abstract</h2>
       <div class="abstract-box">
         <p>
-          We present <strong>Mutual Forcing</strong>, a novel dual-mode self-evolution framework
-          for fast auto-regressive audio-video character generation. Our approach enables
-          high-fidelity, temporally coherent generation across multiple domains — including
-          singing, background music synchronization, multi-person dialogue, animal sounds,
-          and long-form video synthesis — without domain-specific fine-tuning.
+          In this work, we propose <strong>Mutual Forcing</strong>, a framework for fast autoregressive audio-video generation with long-horizon audio-video synchronization. Our approach addresses two key challenges: joint audio-video modeling and fast autoregressive generation. To ease joint audio-video optimization, we adopt a two-stage training strategy: we first train unimodal generators and then couple them into a unified audio-video model for joint training on paired data.
         </p>
         <p>
-          The core insight of Mutual Forcing lies in a bidirectional forcing mechanism
-          between audio and video modalities, where each modality iteratively refines
-          the other through a self-evolving dual-mode schedule. This allows the model
-          to achieve strong cross-domain generalization while maintaining generation speed
-          competitive with single-pass methods.
+          For streaming generation, we ask whether a native fast causal audio-video model can be trained directly, instead of following existing streaming distillation pipelines that typically train a bidirectional model first and then convert it into a causal generator through multiple distillation stages. Our answer is Mutual Forcing, which builds directly on a native autoregressive model and integrates few-step and multi-step generation within a single weight-shared model, enabling self-distillation and improved training-inference consistency.
         </p>
         <p>
-          Extensive experiments demonstrate that our framework generalizes across diverse
-          real-world scenarios, producing results with natural prosody, accurate lip sync,
-          and semantically aligned background music — all from a unified model.
+          The multi-step mode improves the few-step mode via self-distillation, while the few-step mode generates historical context during training to improve training-inference consistency; because the two modes share parameters, these two effects reinforce each other within a single model. Compared with prior approaches such as Self-Forcing, Mutual Forcing removes the need for an additional bidirectional teacher model, supports more flexible training sequence lengths, reduces training overhead, and allows the model to improve directly from real paired data rather than a fixed teacher. Experiments show that Mutual Forcing matches or surpasses strong baselines that require around 50 sampling steps while using only 4 to 8 steps, demonstrating substantial advantages in both efficiency and quality.
         </p>
       </div>
     </div>
@@ -73,32 +94,48 @@
     <div class="container">
       <h2 class="sec-title sec-title-light">Method Overview</h2>
       <p class="sec-sub sec-sub-light">
-        Mutual Forcing introduces a dual-mode self-evolution loop between the audio and
-        video generation streams. At each auto-regressive step, the two modes
-        <em>force</em> each other through a learned coupling, progressively aligning
-        temporal, semantic, and prosodic features across modalities.
+        Mutual Forcing addresses two core challenges in fast autoregressive audio-video generation: joint multimodal modeling and efficient streaming generation. Instead of relying on a bidirectional-to-causal multi-stage distillation pipeline, it starts directly from a native causal model and improves it through a dual-mode self-evolution framework.
       </p>
+
       <div class="method-cards">
-        <div class="method-card">
-          <div class="method-icon">🔄</div>
-          <h3>Dual-Mode Forcing</h3>
-          <p>Audio and video streams mutually condition each other at every generation step, ensuring tight cross-modal alignment.</p>
+        <div class="method-card fade-in">
+          <div class="method-icon">🎧🎬</div>
+          <h3>Two-Stage Audio-Video Modeling</h3>
+          <p>
+            To ease joint multimodal optimization, we first train strong unimodal generators and then couple them into a unified audio-video model for joint training on paired data.
+          </p>
         </div>
-        <div class="method-card">
+
+        <div class="method-card fade-in">
           <div class="method-icon">⚡</div>
-          <h3>Fast Auto-Regressive Decoding</h3>
-          <p>A speculative decoding strategy reduces the number of full-model forward passes, achieving significant speedup without quality loss.</p>
+          <h3>Native Causal Streaming Training</h3>
+          <p>
+            Rather than first training a bidirectional model and then converting it into a streaming generator through multiple distillation stages, Mutual Forcing directly builds on a native fast causal audio-video model.
+          </p>
         </div>
-        <div class="method-card">
-          <div class="method-icon">🌐</div>
-          <h3>Domain Generalization</h3>
-          <p>A single unified model handles singing, dialogue, BGM, animal sounds, and long-form generation without task-specific adaptation.</p>
+
+        <div class="method-card fade-in">
+          <div class="method-icon">🔀</div>
+          <h3>Dual-Mode Weight-Shared Design</h3>
+          <p>
+            A single weight-shared model supports both few-step and multi-step generation. This unified design allows efficient inference while preserving strong generation quality.
+          </p>
         </div>
-        <div class="method-card">
-          <div class="method-icon">🧬</div>
-          <h3>Self-Evolution Schedule</h3>
-          <p>The forcing strength follows a self-evolving curriculum, stabilizing training and improving convergence across diverse domains.</p>
+
+        <div class="method-card fade-in">
+          <div class="method-icon">🔁</div>
+          <h3>Mutual Self-Evolution</h3>
+          <p>
+            The few-step mode generates historical context during training to reduce training-inference mismatch, while the multi-step mode improves the few-step mode via self-distillation; because they share parameters, the two modes reinforce each other within one model.
+          </p>
         </div>
+      </div>
+
+      <div class="figure-card fade-in">
+        <img src="https://github.com/user-attachments/assets/b6076942-ee10-4e5d-a150-5fba2318b54b" alt="Method overview teaser">
+        <p class="figure-caption">
+          <strong>Illustration of Mutual Forcing.</strong> Compared with prior paradigms that either rely on real history and suffer from training-inference mismatch or require an additional bidirectional teacher for distillation, Mutual Forcing starts from a native causal model and uses a weight-shared dual-mode design to unify few-step and multi-step generation in a teacher-free framework.
+        </p>
       </div>
     </div>
   </section>
@@ -108,168 +145,147 @@
     <div class="container">
       <h2 class="sec-title">Qualitative Results</h2>
       <p class="sec-sub">
-        Below we showcase generation results across six domains. All outputs are produced
-        by a <strong>single unified model</strong> without any domain-specific fine-tuning.
+        We showcase Mutual Forcing across diverse audio-video generation scenarios, including speech, music-related scenes, non-speech audio, and long-horizon streaming generation.
       </p>
 
-      <!-- ---- Singing ---- -->
-      <div class="domain-block" id="singing">
-        <h3 class="domain-title"><span class="domain-emoji">🎤</span> Singing</h3>
-        <p class="domain-desc">
-          The model generates singing performances with accurate lip sync, natural
-          vocal prosody, and instrument accompaniment from a single text prompt.
-        </p>
-        <div class="video-grid grid-3">
-
-          <div class="vcard fade-in">
-            <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/91ad06ef-4a4a-4e7d-8cd5-259fde2c162d"
-                controls preload="none"></video>
-            </div>
-            <p class="vcard-caption">
-              Blonde woman at white piano, soft piano accompaniment.<br/>
-              <em class="lyric">"said his mind was made up, but we both know that he lies"</em>
-            </p>
-          </div>
-
-          <div class="vcard fade-in">
-            <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/2f316ed7-a568-44c6-8e59-c5d171337c7a"
-                controls preload="none"></video>
-            </div>
-            <p class="vcard-caption">
-              Dark-stage female vocalist, clear sustained vocal performance.<br/>
-              <em class="lyric">"...found me back home"</em>
-            </p>
-          </div>
-
-          <div class="vcard fade-in">
-            <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/520a18e3-2de6-434a-82d5-23a230ac5a90"
-                controls preload="none"></video>
-            </div>
-            <p class="vcard-caption">
-              Southeast Asian elderly man playing bamboo flute on porch,
-              calm evolving solo melody with natural breath and finger movement.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ---- BGM Music ---- -->
-      <div class="domain-block" id="bgm">
-        <h3 class="domain-title"><span class="domain-emoji">🎼</span> Background Music</h3>
-        <p class="domain-desc">
-          Semantically aligned background music is synthesized to match scene mood,
-          motion dynamics, and visual content — without explicit music labels.
-        </p>
-        <div class="video-grid grid-3">
-
-          <div class="vcard fade-in">
-            <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/7a31c3a1-1aba-4c66-9917-57916a93cce6"
-                controls preload="none"></video>
-            </div>
-            <p class="vcard-caption">
-              Woman by the seaside, straw hat, hair blown by wind.<br/>
-              <em class="lyric">"oh why, oh why... feeling drunk and high, so high"</em> — pensive pop atmosphere.
-            </p>
-          </div>
-
-          <div class="vcard fade-in">
-            <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/8e0f84fc-7a10-4dd5-8a3b-b84a2166989b"
-                controls preload="none"></video>
-            </div>
-            <p class="vcard-caption">
-              Woman in gray coat walking in park, camera panning left.
-              Slow melancholic cello — calm and introspective mood.
-            </p>
-          </div>
-
-          <div class="vcard fade-in">
-            <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/9fb65ea9-2d79-42cb-a89c-239ac6cb496b"
-                controls preload="none"></video>
-            </div>
-            <p class="vcard-caption">
-              Blonde woman turning alertly, camera pulling back.
-              Tense suspenseful score with clear wind ambience.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- ---- Multi-Person Speaking ---- -->
+      <!-- ---- Speaking ---- -->
       <div class="domain-block" id="speaking">
-        <h3 class="domain-title"><span class="domain-emoji">🗣️</span> Multi-Person Speaking</h3>
+        <h3 class="domain-title"><span class="domain-emoji">🗣️</span> Speaking / Dialogue</h3>
         <p class="domain-desc">
-          Multi-speaker dialogue scenes with distinct voices, natural turn-taking,
-          and synchronized lip movements for each speaker.
+          Mutual Forcing supports synchronized speech generation with stable visual identity, coherent lip motion, and temporally consistent long-horizon generation.
         </p>
         <div class="video-grid grid-3">
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/7b2a1828-55eb-4913-a224-9d2d4c43897c"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/7b2a1828-55eb-4913-a224-9d2d4c43897c" controls preload="none"></video>
             </div>
             <p class="vcard-caption">
-              Two men in camouflage, mossy forest. Selfie-style tense dialogue.<br/>
-              <em class="lyric">"I think Claire or something on the other side of the river..."</em>
+              Two men in camouflage in a mossy forest, with synchronized dialogue and stable long-range generation.
             </p>
           </div>
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/8c2b72d0-7c81-4840-bc30-c38df92e2528"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/8c2b72d0-7c81-4840-bc30-c38df92e2528" controls preload="none"></video>
             </div>
             <p class="vcard-caption">
-              Schoolgirl and boy in uniform on sofa, light youthful conversation.<br/>
-              <em class="lyric">Girl: "Do you have a date for the dance?" Boy: "Got a couple of irons in the fire."</em>
+              A two-person conversation with natural turn-taking, speech synchronization, and smooth facial motion.
             </p>
           </div>
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/0a848a04-6c9b-4b47-bfc1-face7db9d726"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/0a848a04-6c9b-4b47-bfc1-face7db9d726" controls preload="none"></video>
             </div>
             <p class="vcard-caption">
-              Elderly couple on leather sofa, Christmas tree background. Warm quiet exchange.<br/>
-              <em class="lyric">Male: "Let me and your mom handle it." Female: "I didn't realize we'd come."</em>
+              An elderly couple conversation with stable identity, coherent speech, and consistent audiovisual generation.
             </p>
           </div>
 
         </div>
       </div>
 
-      <!-- ---- Animal & Eating ---- -->
-      <div class="domain-block" id="animal">
-        <h3 class="domain-title"><span class="domain-emoji">🐾</span> Animal &amp; <span class="domain-emoji">🍽️</span> Eating</h3>
+      <!-- ---- Singing / Music ---- -->
+      <div class="domain-block" id="singing">
+        <h3 class="domain-title"><span class="domain-emoji">🎤</span> Singing / Music-Related Scenes</h3>
         <p class="domain-desc">
-          Beyond human speech, the model generalizes to non-verbal audio domains
-          including animal vocalizations and eating sounds.
+          The model generates synchronized music-related audio-video content with coherent vocal delivery, instrument sounds, and visually aligned motion.
+        </p>
+        <div class="video-grid grid-3">
+
+          <div class="vcard fade-in">
+            <div class="vcard-video">
+              <video src="https://github.com/user-attachments/assets/91ad06ef-4a4a-4e7d-8cd5-259fde2c162d" controls preload="none"></video>
+            </div>
+            <p class="vcard-caption">
+              Blonde woman at a white piano with synchronized singing and soft accompaniment.
+            </p>
+          </div>
+
+          <div class="vcard fade-in">
+            <div class="vcard-video">
+              <video src="https://github.com/user-attachments/assets/2f316ed7-a568-44c6-8e59-c5d171337c7a" controls preload="none"></video>
+            </div>
+            <p class="vcard-caption">
+              A dark-stage female vocalist with sustained singing performance and temporally aligned motion.
+            </p>
+          </div>
+
+          <div class="vcard fade-in">
+            <div class="vcard-video">
+              <video src="https://github.com/user-attachments/assets/520a18e3-2de6-434a-82d5-23a230ac5a90" controls preload="none"></video>
+            </div>
+            <p class="vcard-caption">
+              An elderly man playing bamboo flute with natural breath, hand motion, and audio-video synchronization.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ---- Scene Audio / BGM ---- -->
+      <div class="domain-block" id="bgm">
+        <h3 class="domain-title"><span class="domain-emoji">🎼</span> Scene Audio / Background Music</h3>
+        <p class="domain-desc">
+          Mutual Forcing can synthesize scene-consistent audio that matches visual content, motion dynamics, and temporal progression.
+        </p>
+        <div class="video-grid grid-3">
+
+          <div class="vcard fade-in">
+            <div class="vcard-video">
+              <video src="https://github.com/user-attachments/assets/7a31c3a1-1aba-4c66-9917-57916a93cce6" controls preload="none"></video>
+            </div>
+            <p class="vcard-caption">
+              A seaside scene with coherent atmosphere, motion, and scene-aligned audio.
+            </p>
+          </div>
+
+          <div class="vcard fade-in">
+            <div class="vcard-video">
+              <video src="https://github.com/user-attachments/assets/8e0f84fc-7a10-4dd5-8a3b-b84a2166989b" controls preload="none"></video>
+            </div>
+            <p class="vcard-caption">
+              A walking scene with calm scene-consistent audio and smooth visual progression.
+            </p>
+          </div>
+
+          <div class="vcard fade-in">
+            <div class="vcard-video">
+              <video src="https://github.com/user-attachments/assets/9fb65ea9-2d79-42cb-a89c-239ac6cb496b" controls preload="none"></video>
+            </div>
+            <p class="vcard-caption">
+              A suspenseful scene with matched audio cues and coherent camera-aware generation.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ---- Non-Speech ---- -->
+      <div class="domain-block" id="animal">
+        <h3 class="domain-title"><span class="domain-emoji">🐾</span> Non-Speech Audio</h3>
+        <p class="domain-desc">
+          Beyond speech, the model also generalizes to non-verbal audio domains such as animal vocalization and eating sounds.
         </p>
         <div class="video-grid grid-2-center">
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/15995bd6-9685-4669-a7df-1b479f8fa863"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/15995bd6-9685-4669-a7df-1b479f8fa863" controls preload="none"></video>
             </div>
-            <p class="vcard-caption">Animal domain — natural vocalization synthesis.</p>
+            <p class="vcard-caption">
+              Animal vocalization with synchronized visual behavior.
+            </p>
           </div>
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/0abba59e-4b5a-4ae1-84be-beba6bf5a980"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/0abba59e-4b5a-4ae1-84be-beba6bf5a980" controls preload="none"></video>
             </div>
-            <p class="vcard-caption">Eating domain — foley-accurate chewing and ambient sound synthesis.</p>
+            <p class="vcard-caption">
+              Eating scene with coherent foley-like audio and matching mouth motion.
+            </p>
           </div>
 
         </div>
@@ -277,41 +293,41 @@
 
       <!-- ---- Long Video ---- -->
       <div class="domain-block" id="longvideo">
-        <h3 class="domain-title"><span class="domain-emoji">⏱️</span> 1-Minute Long Video Generation</h3>
+        <h3 class="domain-title"><span class="domain-emoji">⏱️</span> Long-Horizon Streaming Generation</h3>
         <p class="domain-desc">
-          Our auto-regressive framework scales naturally to long-form generation.
-          The following samples demonstrate temporally consistent audio-video synthesis
-          over <strong>~60 seconds</strong>, maintaining character identity and acoustic coherence.
+          Our autoregressive framework naturally scales to long-form generation, maintaining identity consistency, synchronized audiovisual dynamics, and temporal stability over extended durations.
         </p>
         <div class="video-grid grid-3">
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/4f1bb17e-dd43-4336-9631-87c71749eea1"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/4f1bb17e-dd43-4336-9631-87c71749eea1" controls preload="none"></video>
             </div>
-            <p class="vcard-caption">Long-form sample 1 — sustained temporal coherence across ~60s.</p>
+            <p class="vcard-caption">
+              Long-form sample 1 — sustained audio-video coherence over a long horizon.
+            </p>
           </div>
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/36d75d80-230e-4b67-8553-0059c7718c0d"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/36d75d80-230e-4b67-8553-0059c7718c0d" controls preload="none"></video>
             </div>
-            <p class="vcard-caption">Long-form sample 2 — consistent character voice and visual identity.</p>
+            <p class="vcard-caption">
+              Long-form sample 2 — stable visual identity and synchronized speech generation.
+            </p>
           </div>
 
           <div class="vcard fade-in">
             <div class="vcard-video">
-              <video src="https://github.com/user-attachments/assets/c6fc6ee2-1c8e-4716-9e3e-6cbaafff1e25"
-                controls preload="none"></video>
+              <video src="https://github.com/user-attachments/assets/c6fc6ee2-1c8e-4716-9e3e-6cbaafff1e25" controls preload="none"></video>
             </div>
-            <p class="vcard-caption">Long-form sample 3 — natural prosody evolution and scene-level audio alignment.</p>
+            <p class="vcard-caption">
+              Long-form sample 3 — robust long-horizon streaming generation with stable audiovisual alignment.
+            </p>
           </div>
 
         </div>
       </div>
-      <!-- END long video -->
 
     </div>
   </section>
@@ -321,16 +337,14 @@
     <div class="container">
       <h2 class="sec-title sec-title-light">Citation</h2>
       <p class="sec-sub sec-sub-light">
-        If you find this work useful, please consider citing us (BibTeX will be available upon paper release).
+        If you find this work useful, please consider citing:
       </p>
       <div class="bibtex-box">
         <button class="copy-btn" onclick="copyBibtex()">📋 Copy</button>
-        <pre id="bibtex-content">@article{mutualforcing2025,
-  title     = {Mutual Forcing: Dual-Mode Self-Evolution for Fast
-               Auto-Regressive Audio-Video Character Generation},
-  author    = {Anonymous Authors},
-  journal   = {Anonymous Submission},
-  year      = {2025}
+        <pre id="bibtex-content">@article{zhou2025mutualforcing,
+  title   = {Mutual Forcing: Dual-Mode Self-Evolution for Fast Autoregressive Audio-Video Character Generation},
+  author  = {Yupeng Zhou and Lianghua Huang and Zhifan Wu and Jiabao Wang and Yupeng Shi and Biao Jiang and Daquan Zhou and Yu Liu and Ming-Ming Cheng and Qibin Hou},
+  year    = {2026}
 }</pre>
       </div>
     </div>
@@ -339,13 +353,7 @@
   <!-- ===================== FOOTER ===================== -->
   <footer class="footer">
     <div class="container">
-      <p>
-        <strong>Mutual Forcing</strong> · Anonymous Submission · 2025
-      </p>
-      <p class="footer-notice">
-        ⚠️ This page is provided <em>anonymously</em> for reviewer access only.
-        Please do not share or distribute.
-      </p>
+      <p><strong>Mutual Forcing</strong> · 2025</p>
       <p class="footer-credit">
         Page template inspired by
         <a href="https://nerfies.github.io" target="_blank">Nerfies</a>.
@@ -356,4 +364,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
